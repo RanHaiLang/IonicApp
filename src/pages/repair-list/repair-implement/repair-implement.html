@@ -1,0 +1,336 @@
+<ion-header>
+
+  <ion-navbar #Navbar>
+    <ion-title>故障维修单</ion-title>
+    <ion-buttons end (click)="saveMessage('ZC')" *ngIf="repair.evt_status=='B140'">
+      <button ion-button icon-only>
+        暂存
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <!--************* 故障信息 *************-->
+  <ion-list>
+    <ion-item-divider>
+      故障信息
+      <ion-icon class="open" ios="md-arrow-dropdown" item-end (click)="tabSwitch[0]=!tabSwitch[0]" *ngIf="tabSwitch[0]"></ion-icon>
+      <ion-icon class="close" ios="md-arrow-dropright" item-end (click)="tabSwitch[0]=!tabSwitch[0]" [hidden]="tabSwitch[0]"></ion-icon>
+    </ion-item-divider>
+    <div *ngIf="tabSwitch[0]" style="position: relative;">
+      <div style="position: absolute;top: 0;left: 0;right: 0;bottom: 0;z-index: 99;" *ngIf="repair.evt_status=='B160' ||repair.evt_status=='B165'||repair.evt_status=='B170'"></div>
+      <ion-item class="readonly">
+        单据编号：
+        <ion-note item-end>{{repair.evt_code}}</ion-note>
+      </ion-item>
+      <ion-item class="text-special readonly">
+        <ion-label fixed>
+          故障维修描述：
+        </ion-label>
+        <ion-textarea type="text" rows="2" [(ngModel)]="repair.evt_desc" readonly></ion-textarea>
+      </ion-item>
+      <ion-item class="readonly">
+        故障设备编码：
+        <ion-note item-end>{{repair.evt_object}}</ion-note>
+      </ion-item>
+      <ion-item class="readonly">
+        故障设备名称：
+        <ion-note item-end>{{repair.obj_desc}}</ion-note>
+      </ion-item>
+      <ion-item class="readonly">
+        设备型号：
+        <ion-note item-end>{{repair.obj_manufactmodel}}</ion-note>
+      </ion-item>
+      <ion-item class="readonly">
+        工厂/车间：
+        <ion-note item-end>{{repair.evt_udfchar01}}</ion-note>
+      </ion-item>
+      <ion-item class="readonly">
+        安装区域：
+        <ion-note item-end>{{repair.evt_udfchar16}}</ion-note>
+      </ion-item>
+      <ion-item class="readonly">
+        安装位置：
+        <ion-note item-end>{{repair.evt_udfchar17}}</ion-note>
+      </ion-item>
+      <ion-item class="readonly">
+        报修人：
+        <ion-note item-end>{{repair.evt_enteredby_desc}}</ion-note>
+      </ion-item>
+      <ion-item class="readonly">
+        报修时间：
+        <ion-note item-end>{{repair.evt_reported | date:'yyyy-MM-dd HH:mm'}}</ion-note>
+      </ion-item>
+      <ion-item class="readonly">
+        <ion-label  style="opacity: 1;"><span style="color:red">*</span>计划开始时间：</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MM-DD" max="2050-10-31" doneText="确定"
+                      cancelText="取消" [(ngModel)]="repair.evt_target" [disabled]="datetimestatus" style="opacity: 1;"></ion-datetime>
+      </ion-item>
+      <ion-item class="readonly">
+        <ion-label  style="opacity: 1;"><span style="color:red">*</span>计划完成时间：</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MM-DD" max="2050-10-31" doneText="确定"
+                      cancelText="取消" [(ngModel)]="repair.evt_schedend" [disabled]="datetimestatus" style="opacity: 1;"></ion-datetime>
+      </ion-item>
+    </div>
+    <ion-item-divider style="color:#fff;">
+      图片及文件
+    </ion-item-divider>
+    <ion-item>
+      <page-select-picture [(fileObjList)]="filePaths" [evtcode]="repair.evt_code" [allowDelete]="allowDelete"></page-select-picture>
+    </ion-item>
+  </ion-list>
+  <!--************* 维修信息 *************-->
+  <ion-list *ngIf="repair.evt_status!='B110'&&repair.evt_status!='B101'">
+    <ion-item-divider>
+      维修信息
+      <ion-icon class="open" ios="md-arrow-dropdown" item-end (click)="tabSwitch[1]=!tabSwitch[1]" *ngIf="tabSwitch[1]"></ion-icon>
+      <ion-icon class="close" ios="md-arrow-dropright" item-end (click)="tabSwitch[1]=!tabSwitch[1]" [hidden]="tabSwitch[1]"></ion-icon>
+    </ion-item-divider>
+    <div *ngIf="tabSwitch[1]" style="position: relative;">
+      <div style="position: absolute;top: 0;left: 0;right: 0;bottom: 0;z-index: 99;" *ngIf="repair.evt_status=='B160' ||repair.evt_status=='B165'||repair.evt_status=='B170'"></div>
+      <ion-item class="readonly">
+        <ion-label fixed>
+          维修责任人：
+        </ion-label>
+        <ion-input type="" readonly="true" value="{{repair.evt_udfchar07}}"></ion-input>
+      </ion-item>
+      <ion-item class="readonly">
+        <ion-label>
+          <span style="color:red">*</span>
+          维修人员到场时间：
+        </ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" pickerFormat="YYYY-MM-DD HH:mm" max="2050-10-31" doneText="确定"
+          cancelText="取消" [(ngModel)]="repair.evt_tfpromisedate"></ion-datetime>
+      </ion-item>
+      <ion-item class="readonly">
+        <ion-label><span style="color:red">*</span>是否外委</ion-label>
+        <ion-select cancelText="取消" okText="确定" [(ngModel)]="repair.evt_udfchkbox01">
+          <ion-option value="+">是</ion-option>
+          <ion-option value="-">否</ion-option>
+        </ion-select>
+      </ion-item>
+      <!--<ion-item class="text-special">
+        <ion-label fixed>
+          问题描述：
+        </ion-label>
+        <ion-textarea type="text" [(ngModel)]="repair.evt_udfchar04" rows="2"></ion-textarea>
+      </ion-item>-->
+      <!--<ion-item class="readonly">
+        <ion-label fixed>
+          维修标准名称：
+        </ion-label>
+        <ion-note item-end>{{evt_standwork_desc}}</ion-note>
+        <ion-icon name="search" item-end (tap)="gostandworkList()" *ngIf="history==true"></ion-icon>
+      </ion-item>
+      <ion-card>
+        <ion-card-header>
+          维修标准工作内容
+        </ion-card-header>
+        <ion-card-content>
+          {{repair.evt_workaddress}}
+        </ion-card-content>
+      </ion-card>-->
+      <ion-item class="readonly">
+        <span style="color:#FFFF00">*</span>
+        问题描述选择：
+        <ion-note item-end>{{repair.evt_udfchar04}}</ion-note>
+        <ion-icon name="search" item-end (tap)="goRequirList('selectR5Requircodes','问题',repair.obj_class)" *ngIf="history==true"></ion-icon>
+      </ion-item>
+      <ion-item class="readonly">
+        <span style="color:#FFFF00">*</span>
+        原因描述选择：
+        <ion-note item-end>{{repair.evt_udfchar05}}</ion-note>
+        <ion-icon name="search" item-end (tap)="goRequirList('selectR5Causescode','原因',repair.evt_reqm)" *ngIf="history==true"></ion-icon>
+      </ion-item>
+      <!--<ion-item class="text-special">
+        <ion-label fixed>
+          原因描述：
+        </ion-label>
+        <ion-textarea type="text" [(ngModel)]="repair.evt_udfchar05" rows="2"></ion-textarea>
+      </ion-item>-->
+      <ion-item class="readonly">
+        <span style="color:#FFFF00">*</span>
+        行动描述选择：
+        <ion-note item-end>{{repair.evt_udfchar06}}</ion-note>
+        <ion-icon name="search" item-end (tap)="goRequirList('selectR5Actioncode','行动',repair.evt_cause)" *ngIf="history==true"></ion-icon>
+      </ion-item>
+      <!--<ion-item class="text-special">
+        <ion-label fixed>
+          行动描述：
+        </ion-label>
+        <ion-textarea type="text" [(ngModel)]="repair.evt_udfchar06" rows="2"></ion-textarea>
+      </ion-item>-->
+      <!--<ion-card>
+        <ion-card-header>
+          工作记录
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-textarea type="text" [(ngModel)]="repair.evt_udfchar19" rows="4"></ion-textarea>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>-->
+      <ion-item class="readonly time-special">
+        <ion-label fixed>
+          <span style="color:#FFFF00">*</span>
+          问题鉴定：
+        </ion-label>
+        <ion-input type="" [(ngModel)]="repair.evt_udfchar11"></ion-input>
+      </ion-item>
+      <ion-item class="readonly time-special">
+        <ion-label fixed>
+          <span style="color:#FFFF00">*</span>
+          原因鉴定：
+        </ion-label>
+        <ion-input type="" [(ngModel)]="repair.evt_udfchar12"></ion-input>
+      </ion-item>
+      <ion-item class="readonly time-special">
+        <ion-label fixed>
+          <span style="color:#FFFF00">*</span>
+          行动鉴定：
+        </ion-label>
+        <ion-input type="" [(ngModel)]="repair.evt_udfchar20"></ion-input>
+      </ion-item>
+      <ion-item class="readonly">
+        <ion-label><span style="color:red">*</span>维修开始时间：</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" pickerFormat="YYYY-MM-DD HH:mm" max="2050-10-31" doneText="确定"
+                      cancelText="取消" [(ngModel)]="repair.evt_pfpromisedate" (ngModelChange)="getudfnum02()"></ion-datetime>
+      </ion-item>
+      <ion-item class="readonly">
+        <ion-label><span style="color:red">*</span>维修结束时间：</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" pickerFormat="YYYY-MM-DD HH:mm" max="2050-10-31" doneText="确定"
+                      cancelText="取消" [(ngModel)]="repair.evt_tfdatecompleted" (ngModelChange)="getudfnum02()"></ion-datetime>
+      </ion-item>
+      <ion-item class="readonly time-special">
+        <ion-label fixed>
+          维修时长：
+        </ion-label>
+        <ion-input [(ngModel)]="repair.evt_udfnum02" type="number" pattern="[0-9]*" readonly="true"></ion-input>
+        <ion-note item-end>分钟</ion-note>
+      </ion-item>
+      <ion-item class="readonly time-special">
+        <ion-label fixed>
+          <span style="color:red">*</span>
+          故障停机时长：
+        </ion-label>
+        <ion-input [(ngModel)]="repair.evt_downtimehrs" type="number" pattern="[0-9]*"></ion-input>
+        <ion-note item-end>分钟</ion-note>
+      </ion-item>
+      <ion-item class="readonly">
+        延迟维修原因：
+        <ion-note item-end>{{repair.evt_udfchar18}}</ion-note>
+        <ion-icon name="search" item-end (tap)="goRequirList('selectR5userdefinedfield','延迟原因')" *ngIf="history==true"></ion-icon>
+      </ion-item>
+    </div>
+  </ion-list>
+  <!--************* 登记工时 *************-->
+  <ion-list class="workHour">
+    <ion-item-divider>
+      登记工时
+      <button ion-button color="light" (click)="goToWorkingHoursModal()" *ngIf="repair.evt_status=='B140'">
+        <ion-icon class="add" name="add" color="danger" item-end></ion-icon>
+      </button>
+      <ion-icon class="open" ios="md-arrow-dropdown" item-end (click)="tabSwitch[2]=!tabSwitch[2]" *ngIf="tabSwitch[2]"></ion-icon>
+      <ion-icon class="close" ios="md-arrow-dropright" item-end (click)="tabSwitch[2]=!tabSwitch[2]" [hidden]="tabSwitch[2]"></ion-icon>
+    </ion-item-divider>
+    <ion-list class="workHour-inner" *ngFor="let item of bookedhours;let i = index;">
+      <div *ngIf="tabSwitch[2]">
+        <ion-item>
+          <span class="event-item">{{i+1}}：{{item.boo_person_desc}}——{{item.boo_hours}}小时</span>
+          <ion-icon name="arrow-forward" item-end (click)="workHours[i]=true" *ngIf="!workHours[i]"></ion-icon>
+          <ion-icon name="arrow-down" item-end (click)="workHours[i]=false" *ngIf="workHours[i]"></ion-icon>
+        </ion-item>
+        <div class="list-wrap" *ngIf="workHours[i]==true" style="position: relative;">
+          <div class="list-item">
+            <span>姓名：</span>
+            <p>{{item.boo_person_desc}}</p>
+          </div>
+          <div class="list-item">
+            <span>开始时间：</span>
+            <p>{{item.boo_on}}</p>
+          </div>
+          <div class="list-item">
+            <span>结束时间：</span>
+            <p>{{item.boo_off}}</p>
+          </div>
+          <div class="list-item">
+            <span>实际工时：</span>
+            <p>{{item.boo_hours}}小时</p>
+          </div>
+          <!--<button ion-button color="danger" style="position: absolute;bottom: 5px;right: 10px;padding: 0 0.6em;height: 1.8rem;" (click)="deleteWorkingHours(item.boo_event,item.boo_code)" >删除</button>-->
+        </div>
+      </div>
+    </ion-list>
+  </ion-list>
+  <!--************* 维修评价 *************-->
+  <ion-list *ngIf="repair.evt_status=='B160'||repair.evt_status=='B165' ||repair.evt_status=='B170' ||repair.evt_status=='B199'">
+    <ion-item-divider>
+      维修评价
+      <ion-icon class="open" ios="md-arrow-dropdown" item-end (click)="tabSwitch[3]=!tabSwitch[3]" *ngIf="tabSwitch[3]"></ion-icon>
+      <ion-icon class="close" ios="md-arrow-dropright" item-end (click)="tabSwitch[3]=!tabSwitch[3]" [hidden]="tabSwitch[3]"></ion-icon>
+    </ion-item-divider>
+    <div *ngIf="tabSwitch[3]">
+      <ion-item-divider style="color:#fff;">
+        报修人评价
+      </ion-item-divider>
+      <ion-item class="readonly">
+        <ion-label fixed>
+          维修质量：
+        </ion-label>
+        <span item-end *ngFor = "let start of starts1;let i = index;" class="iconfont icon-star" [class.icon-staroutline]="start" (click)="clickStar(i,1)"></span>
+      </ion-item>
+      <ion-item class="readonly">
+        <ion-label fixed>
+          维修态度：
+        </ion-label>
+        <span item-end *ngFor = "let start of starts2;let i = index;" class="iconfont icon-star" [class.icon-staroutline]="start" (click)="clickStar(i,2)"></span>
+      </ion-item>
+      <ion-item class="text-special">
+        <ion-label fixed>
+          维修评价：
+        </ion-label>
+        <ion-textarea type="text" [(ngModel)]="repair.evt_udfchar21" rows="2" [readonly]="repair.evt_status=='B165'||repair.evt_status=='B170'"></ion-textarea>
+      </ion-item>
+      <ion-item class="readonly">
+        <ion-label fixed>
+          评价人：
+        </ion-label>
+        <ion-input readonly="true" value="{{repair.evt_udfchar13}}"></ion-input>
+      </ion-item>
+      <ion-list *ngIf="repair.evt_status=='B165' ||repair.evt_status=='B170' ||repair.evt_status=='B199'">
+        <ion-item-divider style="color:#fff;">
+          设备主管评价
+        </ion-item-divider>
+        <ion-item class="readonly">
+          <ion-label fixed>
+            维修质量：
+          </ion-label>
+          <span item-end *ngFor = "let start of starts3;let i = index;" class="iconfont icon-star" [class.icon-staroutline]="start" (click)="clickStar(i,3)"></span>
+        </ion-item>
+        <ion-item class="text-special">
+          <ion-label fixed>
+            维修评价：
+          </ion-label>
+          <ion-textarea type="text" [(ngModel)]="repair.evt_udfchar22" rows="2"></ion-textarea>
+        </ion-item>
+        <ion-item class="readonly">
+          <ion-label fixed>
+            评价人：
+          </ion-label>
+          <ion-input readonly="true" value="{{repair.evt_udfchar14}}"></ion-input>
+        </ion-item>
+      </ion-list>
+    </div>
+  </ion-list>
+
+</ion-content>
+
+
+<ion-footer>
+  <ion-toolbar *ngIf="history==true">
+    <button ion-button col-6 color="secondary" (tap)="StatusButton()">下一步</button>
+  </ion-toolbar>
+</ion-footer>

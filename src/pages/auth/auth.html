@@ -1,0 +1,108 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{rcdbaseinfo.rcddesc}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+  <!--************* 基本信息 *************-->
+  <ion-list>
+    <ion-item-divider>
+      {{rcdinfo.infodesc}}
+      <ion-icon class="open" ios="md-arrow-dropdown" item-end (click)="tabSwitch[0]=!tabSwitch[0]"
+                *ngIf="tabSwitch[0]"></ion-icon>
+      <ion-icon class="close" ios="md-arrow-dropright" item-end (click)="tabSwitch[0]=!tabSwitch[0]"
+                [hidden]="tabSwitch[0]"></ion-icon>
+    </ion-item-divider>
+    <div *ngIf="tabSwitch[0]">
+
+      <ion-item *ngFor="let iteminfo of rcdinfolabels;let i=index" class="readonly">
+        {{iteminfo}}：
+        <ion-note item-end>{{rcdinfovalues[i]}}</ion-note>
+      </ion-item>
+
+    </div>
+  </ion-list>
+  <!--************* 附件清单 *************-->
+  <ion-list class="enclosure">
+    <ion-item-divider>
+      附件清单
+      <ion-icon class="open" ios="md-arrow-dropdown" item-end (click)="tabSwitch[1]=!tabSwitch[1]"
+                *ngIf="tabSwitch[1]"></ion-icon>
+      <ion-icon class="close" ios="md-arrow-dropright" item-end (click)="tabSwitch[1]=!tabSwitch[1]"
+                [hidden]="tabSwitch[1]"></ion-icon>
+    </ion-item-divider>
+    <div *ngIf="tabSwitch[1]">
+      <ion-card *ngFor="let itemdoc of rcddoc">
+        <ion-card-content>
+          <a href="{{rcdbaseinfo.EAMDOCURL}}/{{itemdoc.doc_filename}}">{{itemdoc.doc_filename}}</a>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ion-list>
+  <!--************* 请示明细 *************-->
+  <ion-list class="details" *ngFor="let lineinfoitem of rcdlines;let i = index;">
+    <ion-item-divider>
+      {{lineinfoitem['INFOLINE'].infodesc}}
+      <ion-icon class="open" ios="md-arrow-dropdown" item-end (click)="tabSwitch[3+i]=!tabSwitch[3+i]"
+                *ngIf="tabSwitch[3+i]"></ion-icon>
+      <ion-icon class="close" ios="md-arrow-dropright" item-end (click)="tabSwitch[3+i]=!tabSwitch[3+i]"
+                [hidden]="tabSwitch[3+i]"></ion-icon>
+    </ion-item-divider>
+    <ion-list class="details-inner" *ngFor="let lineitem of lineinfoitem['INFOLINE']['lines'];let k = index;"
+              [hidden]="!tabSwitch[3+i]">
+      <ion-item>
+        <span class="event-item">{{k+1}}：{{lineitem.values[0]}}</span>
+        <ion-icon name="arrow-down" item-end (click)="detailsItem[k]=false" *ngIf="detailsItem[k]"></ion-icon>
+        <ion-icon name="arrow-forward" item-end (click)="detailsItem[k]=true" *ngIf="!detailsItem[k]"></ion-icon>
+      </ion-item>
+      <div class="list-wrap" *ngIf="detailsItem[k]==true">
+        <div *ngFor="let itemlabel of lineitem['labels'];let j=index" class="list-item" [hidden]="j==0">
+          <span >{{lineitem['labels'][j]}}：</span>
+          <p >{{lineitem['values'][j]}}</p>
+        </div>
+      </div>
+    </ion-list>
+  </ion-list>
+  <!--************* 审批记录 *************-->
+  <ion-list class="approval">
+    <ion-item-divider>
+      审批记录
+      <ion-icon class="open" ios="md-arrow-dropdown" item-end (click)="tabSwitch[2]=!tabSwitch[2]"
+                *ngIf="tabSwitch[2]"></ion-icon>
+      <ion-icon class="close" ios="md-arrow-dropright" item-end (click)="tabSwitch[2]=!tabSwitch[2]"
+                [hidden]="tabSwitch[2]"></ion-icon>
+    </ion-item-divider>
+    <div [hidden]="!tabSwitch[2]">
+      <ion-card *ngFor="let itemadd of rcdadd">
+        <ion-card-header>
+          <span>
+            {{itemadd.ugrdesc}}
+            {{itemadd.usrdesc}}
+          </span>
+          <span>
+            {{itemadd.add_created}}
+          </span>
+        </ion-card-header>
+        <ion-card-content>
+          {{itemadd.add_text}}
+        </ion-card-content>
+      </ion-card>
+      <ion-card>
+        <ion-card-content>
+          <textarea placeholder="此处输入审批意见" type="text" [(ngModel)]="pmauth.rcdaddetail" rows="4"></textarea>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <button ion-button col-12 color="primary" (click)="StatusButton()">下一步</button>
+  </ion-toolbar>
+</ion-footer>

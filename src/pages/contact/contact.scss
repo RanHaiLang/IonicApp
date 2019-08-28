@@ -1,0 +1,21 @@
+page-contact {
+    .content{
+        .item{
+            font-size: 1.6rem;
+            background-color: rgba(23, 53, 101,.4);
+            color: #fff;
+            .item-inner{
+                border-bottom: 1px solid #4d5d76;
+            }
+        }
+        .item-block:first-child{
+            border-top: none;
+        }
+        .item-block:last-child{
+            border-bottom: none;
+        }
+        .item-ios [item-right], .item-ios [item-end]{
+            color: #8e969f;
+        }
+    }
+}

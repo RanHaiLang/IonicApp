@@ -1,0 +1,30 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>公告列表</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="下拉刷新" refreshingSpinner="circles" refreshingText="正在刷新...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-list>
+    <ion-item *ngFor="let item of rmnoticeList" (click)="goToNoticePage(item)">
+      <div class="img-wrap">
+        <a href="javascript:void(0)"  [ngStyle]="{'background-image': item.notudfchar02,'background-size':'cover' }"></a>
+      </div>
+      <div class="info">
+        <h1>{{item.not_desc}}</h1>
+        <span>{{item.not_date | date:'yyyy/MM/dd HH:mm'}}</span>
+      </div>
+    </ion-item>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

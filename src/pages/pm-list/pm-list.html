@@ -1,0 +1,267 @@
+<ion-header>
+  <ion-navbar #Navbar>
+    <ion-title>计划检修</ion-title>
+    <ion-buttons end (click)="goToRepairPage()">
+      <button ion-button icon-only>
+        <ion-icon name="md-add" color="gray"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="repair" (ionChange)="getPmList()">
+      <ion-segment-button value="all" class="first">
+        所有 {{allcount}}
+      </ion-segment-button>
+      <ion-segment-button value="pending" class="second">
+        待接 {{waitcount}}
+      </ion-segment-button>
+      <ion-segment-button value="delay" class="third">
+        延迟 {{delaycount}}
+      </ion-segment-button>
+      <ion-segment-button value="mine" class="fourth">
+        我的 {{mycount}}
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="下拉刷新" refreshingSpinner="circles" refreshingText="正在刷新...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div [ngSwitch]="repair">
+    <ion-list *ngSwitchCase="'all'" no-lines>
+      <ion-item *ngFor="let item of repairAll" (click)="goToPmImplementPage(item)">
+        <div class="list-item title" [ngClass]="{'doing':doing==item.evt_status,'red':item.evt_status=='B110' && item.evt_udfchar28>5 && item.evt_udfchar08==null}">
+          <ion-item>
+            <div item-start col-4>
+              <ion-icon name="logo-buffer"></ion-icon>
+              {{item.evt_code}}
+            </div>
+            <div col-4 text-center>
+              <ion-icon name="man"></ion-icon>
+              {{item.evt_enteredby_desc}}
+            </div>
+            <div item-end>
+              <ion-icon name="timer"></ion-icon>
+              {{item.evt_reported | date:'yyyy/MM/dd HH:mm'}}
+            </div>
+          </ion-item>
+        </div>
+        <div class="list-item">
+          <span>故障描述：</span>
+          <span>{{item.evt_desc}}</span>
+        </div>
+        <div class="list-item">
+          <span>故障设备：</span>
+          <span>{{item.obj_desc}}</span>
+        </div>
+        <div class="list-item">
+          <span>设备型号：</span>
+          <span>{{item.obj_manufactmodel}}</span>
+        </div>
+        <div class="list-item">
+          <span>分厂/部门：</span>
+          <span>{{item.evt_udfchar01}}</span>
+        </div>
+        <div class="list-item">
+          <span>所在区域：</span>
+          <span>{{item.evt_udfchar16}}{{item.evt_udfchar17}}</span>
+        </div>
+        <!--<div class="list-item">
+          <span>所在位置：</span>
+          <span></span>
+        </div>-->
+        <div class="list-item">
+          <span>当前维修人：</span>
+          <span>{{item.evt_udfchar08_desc}}</span>
+        </div>
+        <div class="list-item">
+          <span>维修状态：</span>
+          <span>{{item.uco_desc}}</span>
+        </div>
+        <button ion-button *ngIf="(item.evt_status=='B110' || item.evt_status=='B150' ) && usrudfchar06=='+'&& item.evt_enteredby!=username" (click)="$event.stopPropagation();updateEventStatus(item)">接单</button>
+        <button ion-button class="slip"
+                *ngIf="(item.evt_status=='B120'|| item.evt_status=='B130' ||item.evt_status=='B140')&&(item.evt_udfchar08==username &&usrudfchar06=='+')" tappable
+                (click)="$event.stopPropagation();ChangeOrder(item)">转单
+        </button>
+      </ion-item>
+    </ion-list>
+    <ion-list *ngSwitchCase="'pending'">
+      <ion-item *ngFor="let item of repairWait" (click)="goToPmImplementPage(item)">
+        <div class="list-item title" [ngClass]="{'doing':doing==item.evt_status,'red':item.evt_status=='B110' && item.evt_udfchar28>5 && item.evt_udfchar08==null}">
+          <ion-item>
+            <div item-start col-4>
+              <ion-icon name="logo-buffer"></ion-icon>
+              {{item.evt_code}}
+            </div>
+            <div col-4 text-center>
+              <ion-icon name="man"></ion-icon>
+              {{item.evt_enteredby_desc}}
+            </div>
+            <div item-end>
+              <ion-icon name="timer"></ion-icon>
+              {{item.evt_reported | date:'yyyy/MM/dd HH:mm'}}
+            </div>
+          </ion-item>
+        </div>
+        <div class="list-item">
+          <span>故障描述：</span>
+          <span>{{item.evt_desc}}</span>
+        </div>
+        <div class="list-item">
+          <span>故障设备：</span>
+          <span>{{item.obj_desc}}</span>
+        </div>
+        <div class="list-item">
+          <span>设备型号：</span>
+          <span>{{item.obj_manufactmodel}}</span>
+        </div>
+        <div class="list-item">
+          <span>分厂/部门：</span>
+          <span>{{item.evt_udfchar01}}</span>
+        </div>
+        <div class="list-item">
+          <span>所在区域：</span>
+          <span>{{item.evt_udfchar16}}{{item.evt_udfchar17}}</span>
+        </div>
+        <!--<div class="list-item">
+          <span>所在位置：</span>
+          <span></span>
+        </div>-->
+        <div class="list-item">
+          <span>当前维修人：</span>
+          <span>{{item.evt_udfchar08_desc}}</span>
+        </div>
+        <div class="list-item">
+          <span>维修状态：</span>
+          <span>{{item.uco_desc}}</span>
+        </div>
+        <button ion-button *ngIf="(item.evt_status=='B110' || item.evt_status=='B150' ) && usrudfchar06=='+'&& item.evt_enteredby!=username" (click)="$event.stopPropagation();updateEventStatus(item)">接单</button>
+        <button ion-button class="slip"
+                *ngIf="(item.evt_status=='B120'|| item.evt_status=='B130' ||item.evt_status=='B140')&&(item.evt_udfchar08==username &&usrudfchar06=='+')" tappable
+                (click)="$event.stopPropagation();ChangeOrder(item)">转单
+        </button>
+      </ion-item>
+    </ion-list>
+    <ion-list *ngSwitchCase="'delay'">
+      <ion-item *ngFor="let item of repairDelay" (click)="goToPmImplementPage(item)">
+        <div class="list-item title" [ngClass]="{'doing':doing==item.evt_status,'red':item.evt_status=='B110' && item.evt_udfchar28>5 && item.evt_udfchar08==null}">
+          <ion-item>
+            <div item-start col-4>
+              <ion-icon name="logo-buffer"></ion-icon>
+              {{item.evt_code}}
+            </div>
+            <div col-4 text-center>
+              <ion-icon name="man"></ion-icon>
+              {{item.evt_enteredby_desc}}
+            </div>
+            <div item-end>
+              <ion-icon name="timer"></ion-icon>
+              {{item.evt_reported | date:'yyyy/MM/dd HH:mm'}}
+            </div>
+          </ion-item>
+        </div>
+        <div class="list-item">
+          <span>故障描述：</span>
+          <span>{{item.evt_desc}}</span>
+        </div>
+        <div class="list-item">
+          <span>故障设备：</span>
+          <span>{{item.obj_desc}}</span>
+        </div>
+        <div class="list-item">
+          <span>设备型号：</span>
+          <span>{{item.obj_manufactmodel}}</span>
+        </div>
+        <div class="list-item">
+          <span>分厂/部门：</span>
+          <span>{{item.evt_udfchar01}}</span>
+        </div>
+        <div class="list-item">
+          <span>所在区域：</span>
+          <span>{{item.evt_udfchar16}}{{item.evt_udfchar17}}</span>
+        </div>
+        <!--<div class="list-item">
+          <span>所在位置：</span>
+          <span></span>
+        </div>-->
+        <div class="list-item">
+          <span>当前维修人：</span>
+          <span>{{item.evt_udfchar08_desc}}</span>
+        </div>
+        <div class="list-item">
+          <span>维修状态：</span>
+          <span>{{item.uco_desc}}</span>
+        </div>
+        <button ion-button *ngIf="(item.evt_status=='B110' || item.evt_status=='B150' ) && usrudfchar06=='+'&& item.evt_enteredby!=username" (click)="$event.stopPropagation();updateEventStatus(item)">接单</button>
+        <button ion-button class="slip"
+                *ngIf="(item.evt_status=='B120'|| item.evt_status=='B130' ||item.evt_status=='B140')&&(item.evt_udfchar08==username &&usrudfchar06=='+')" tappable
+                (click)="$event.stopPropagation();ChangeOrder(item)">转单
+        </button>
+      </ion-item>
+    </ion-list>
+    <ion-list *ngSwitchCase="'mine'">
+      <ion-item *ngFor="let item of repairMy" (click)="goToPmImplementPage(item)">
+        <div class="list-item title" [ngClass]="{'doing':doing==item.evt_status,'red':item.evt_status=='B110' && item.evt_udfchar28>5 && item.evt_udfchar08==null}">
+          <ion-item>
+            <div item-start col-4>
+              <ion-icon name="logo-buffer"></ion-icon>
+              {{item.evt_code}}
+            </div>
+            <div col-4 text-center>
+              <ion-icon name="man"></ion-icon>
+              {{item.evt_enteredby_desc}}
+            </div>
+            <div item-end>
+              <ion-icon name="timer"></ion-icon>
+              {{item.evt_reported | date:'yyyy/MM/dd HH:mm'}}
+            </div>
+          </ion-item>
+        </div>
+        <div class="list-item">
+          <span>故障描述：</span>
+          <span>{{item.evt_desc}}</span>
+        </div>
+        <div class="list-item">
+          <span>故障设备：</span>
+          <span>{{item.obj_desc}}</span>
+        </div>
+        <div class="list-item">
+          <span>设备型号：</span>
+          <span>{{item.obj_manufactmodel}}</span>
+        </div>
+        <div class="list-item">
+          <span>分厂/部门：</span>
+          <span>{{item.evt_udfchar01}}</span>
+        </div>
+        <div class="list-item">
+          <span>所在区域：</span>
+          <span>{{item.evt_udfchar16}}{{item.evt_udfchar17}}</span>
+        </div>
+        <!--<div class="list-item">
+          <span>所在位置：</span>
+          <span></span>
+        </div>-->
+        <div class="list-item">
+          <span>当前维修人：</span>
+          <span>{{item.evt_udfchar08_desc}}</span>
+        </div>
+        <div class="list-item">
+          <span>维修状态：</span>
+          <span>{{item.uco_desc}}</span>
+        </div>
+        <button ion-button *ngIf="(item.evt_status=='B110' || item.evt_status=='B150' ) && usrudfchar06=='+'&& item.evt_enteredby!=username" (click)="$event.stopPropagation();updateEventStatus(item)">接单</button>
+        <button ion-button class="slip"
+                *ngIf="(item.evt_status=='B120'|| item.evt_status=='B130' ||item.evt_status=='B140')&&(item.evt_udfchar08==username &&usrudfchar06=='+')" tappable
+                (click)="$event.stopPropagation();ChangeOrder(item)">转单
+        </button>
+      </ion-item>
+    </ion-list>
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+</ion-content>

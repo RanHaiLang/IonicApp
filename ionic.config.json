@@ -1,0 +1,17 @@
+{
+  "name": "demo",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular",
+  "proxies":[
+    {
+      "path":"/AuxEam",
+      "proxyUrl":"http://192.168.3.112/AuxEam"
+    },
+    {
+      "path":"/AuxEams",
+      "proxyUrl":"http://47.99.158.150:8880/AuxEams"
+    }
+  ]
+}

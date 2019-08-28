@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      待办事宜
+    </ion-title>
+  </ion-navbar>
+  <ion-toolbar>
+    <ion-searchbar placeholder="搜索"></ion-searchbar>
+    <ion-item>
+      <ion-note item-start>待办总数：3</ion-note>
+      <ion-note item-end>今日新增数：5</ion-note>
+    </ion-item>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="下拉刷新" refreshingSpinner="circles" refreshingText="正在刷新...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-list no-lines>
+    <ion-item *ngFor="let item of items" (click)="goToDetails(item.name)">
+      <ion-item class="top">
+        <ion-note item-start>
+          <ion-icon name="albums-outline"></ion-icon><span class="code"> {{item.name}} </span> - {{item.code}}
+        </ion-note>
+      </ion-item>
+      <div class="list-item">
+        <span>工单描述：</span>
+        <p>{{item.describe}}</p>
+      </div>
+      <div class="list-item">
+        <span>工单状态：</span>
+        <p>{{item.state}}</p>
+      </div>
+      <ion-item class="bottom">
+        <ion-note item-start>
+          <ion-icon name="person-outline"></ion-icon> {{item.person}}
+        </ion-note>
+        <ion-note item-end>
+          <ion-icon name="time-outline"></ion-icon> {{item.time}}
+        </ion-note>
+      </ion-item>
+    </ion-item>
+  </ion-list>
+  <ion-infinite-scroll>
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

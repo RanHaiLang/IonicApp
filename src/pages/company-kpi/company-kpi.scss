@@ -1,0 +1,79 @@
+page-company-kpi {
+    .item-ios{
+      background: transparent;
+      border: 0;
+      color: white;
+    }
+    .item-ios.item-block .item-inner {
+      border-bottom: 0px;
+    }
+    .card{
+        color: #fff;
+        box-shadow: none;
+        .card-content{
+            background-color: #122e5d;
+            display: flex;
+            padding: 0;
+            .kpi-left{
+                width: 100px;
+                height: auto;
+                position: relative;
+                #chart1,#chart2,#chart3{
+                    width:100px;
+                    height:200px;
+                    position: absolute;
+                    top: 50%;
+                    margin-top: -100px;
+                }
+            }
+            .kpi-right{
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                padding: 2px 5px;
+                .kpi-title{
+                    padding: 5px;
+                    border-bottom: 1px solid #40587e;
+                }
+                .kpi-content{
+                    flex: 1;
+                    display: flex;
+                    justify-content: space-around;
+                    font-size: 2.4rem;
+                    padding: 5px 0;
+                    .kpi-item{
+                        display: flex;
+                        flex-direction: column;
+                        .value{
+                            border-radius: 5px;
+                        }
+                        .key{
+                            font-size: 1.4rem;
+                            color: #71829E;
+                            padding: 3px 0;
+                        }
+                        &:first-child{
+                            .value{
+                                background: linear-gradient(180deg, rgba(0, 93, 209, 1) 0%, rgba(0, 93, 209, 1) 0%, rgba(14, 49, 126, 1) 100%, rgba(14, 49, 126, 1) 100%);
+                            }
+                        }
+                        &:nth-child(2){
+                            .value{
+                                background: linear-gradient(180deg, rgba(163, 225, 0, 1) 0%, rgba(163, 225, 0, 1) 0%, rgba(92, 171, 0, 1) 100%, rgba(92, 171, 0, 1) 100%);
+                            }
+                        }
+                        &:nth-child(3){
+                            .value{
+                                background: linear-gradient(180deg, rgba(232, 5, 58, 1) 0%, rgba(232, 5, 58, 1) 0%, rgba(159, 1, 20, 1) 100%, rgba(159, 1, 20, 1) 100%);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    #chart4{
+        height: 310px;
+        padding-top:0;
+    }
+}

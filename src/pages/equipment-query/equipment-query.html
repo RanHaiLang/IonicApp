@@ -1,0 +1,132 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>设备信息查询</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <!--************* 基本信息 *************-->
+  <ion-list>
+    <ion-item-divider>
+      基本信息
+      <ion-icon class="open" ios="md-arrow-dropdown" item-end (click)="tabSwitch[0]=!tabSwitch[0]" *ngIf="tabSwitch[0]"></ion-icon>
+      <ion-icon class="close" ios="md-arrow-dropright" item-end (click)="tabSwitch[0]=!tabSwitch[0]" [hidden]="tabSwitch[0]"></ion-icon>
+    </ion-item-divider>
+    <div *ngIf="tabSwitch[0]">
+      <ion-item class="readonly">
+        设备编号：
+        <ion-note item-end>{{equipment.obj_code}}</ion-note>
+        <ion-icon name="qr-scanner" item-end (click)="BarcodeScan()"></ion-icon>
+        <ion-icon name="search" item-end (tap)="getEquipment()"></ion-icon>
+      </ion-item>
+      <ion-item class="readonly">
+        设备名称：
+        <ion-note item-end>{{equipment.obj_desc}}</ion-note>
+        <ion-icon name="search" item-end (tap)="getEquipment()"></ion-icon>
+      </ion-item>
+      <ion-item class="readonly">
+        规格型号：
+        <ion-note item-end>{{equipment.obj_manufactmodel}}</ion-note>
+      </ion-item>
+      <ion-item class="readonly">
+        主要技术参数：
+        <ion-note item-end>{{equipment.obj_udfchar12}}</ion-note>
+      </ion-item>
+      <ion-item class="readonly">
+        固定资产编码：
+        <ion-note item-end>{{equipment.obj_udfchar32}}</ion-note>
+      </ion-item>
+      <ion-item class="readonly">
+        区域：
+        <ion-note item-end>{{equipment.obj_udfchar20}}</ion-note>
+      </ion-item>
+      <ion-item class="readonly">
+        安装位置：
+        <ion-note item-end>{{equipment.obj_udfchar21}}</ion-note>
+      </ion-item>
+      <ion-item class="readonly">
+        设备制造商：
+        <ion-note item-end>{{equipment.obj_udfchar17}}</ion-note>
+      </ion-item>
+      <!--<ion-item class="readonly">
+        设备供应商：
+        <ion-note item-end>{{equipment.obj_udfchar15}}</ion-note>
+      </ion-item>-->
+      <ion-item class="readonly">
+        维修责任人：
+        <ion-note item-end>{{equipment.obj_udfchar04}}</ion-note>
+        <button ion-button item-end color="danger" (click)="goToRepairPage(equipment)">报修</button>
+      </ion-item>
+    </div>
+  </ion-list>
+  <!--************* 附件清单 *************-->
+  <ion-list class="enclosure">
+    <ion-item-divider>
+      附件清单
+      <ion-icon class="open" ios="md-arrow-dropdown" item-end (click)="tabSwitch[1]=!tabSwitch[1]" *ngIf="tabSwitch[1]"></ion-icon>
+      <ion-icon class="close" ios="md-arrow-dropright" item-end (click)="tabSwitch[1]=!tabSwitch[1]" [hidden]="tabSwitch[1]"></ion-icon>
+    </ion-item-divider>
+    <div *ngIf="tabSwitch[1]">
+      <ion-card *ngFor="let d of documentList">
+        <ion-card-content>
+          <a href="{{docPath}}{{d.doc_filename}}" target="_blank">{{d.doc_desc}}</a>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ion-list>
+  <!--************* 维修事件 *************-->
+  <ion-list class="maintenance-event">
+    <ion-item-divider>
+      维修事件
+      <ion-icon class="open" ios="md-arrow-dropdown" item-end (click)="tabSwitch[2]=!tabSwitch[2]" *ngIf="tabSwitch[2]"></ion-icon>
+      <ion-icon class="close" ios="md-arrow-dropright" item-end (click)="tabSwitch[2]=!tabSwitch[2]" [hidden]="tabSwitch[2]"></ion-icon>
+    </ion-item-divider>
+    <ion-list class="maintenance-inner" *ngFor="let item of repairList;let i = index;"  [hidden]="!tabSwitch[2]">
+      <ion-item>
+        <span class="event-item"  [ngClass]="{'half':redClass==item.evt_status}">{{i+1}}：{{item.evt_desc}} [{{item.evt_udfchar28}}]</span>
+        <ion-icon name="arrow-down" item-end (click)="repairItem[i]=false" *ngIf="repairItem[i]"></ion-icon>
+        <ion-icon name="arrow-forward" item-end (click)="repairItem[i]=true" *ngIf="!repairItem[i]"></ion-icon>
+      </ion-item>
+      <div class="list-wrap" *ngIf="repairItem[i]==true">
+        <div class="list-item">
+          <span>维修单：</span>
+          <p>{{item.evt_code}}</p>
+        </div>
+        <div class="list-item">
+          <span>维修单描述：</span>
+          <p>{{item.evt_desc}}</p>
+        </div>
+        <div class="list-item">
+          <span>维修时间：</span>
+          <p>{{item.evt_date}}</p>
+        </div>
+        <div class="list-item">
+          <span>维修人：</span>
+          <p>{{item.evt_udfchar08}}</p>
+        </div>
+        <div class="list-item">
+          <span>故障描述：</span>
+          <p>{{item.evt_udfchar04}}</p>
+        </div>
+        <div class="list-item">
+          <span>故障原因：</span>
+          <p>{{item.evt_udfchar05}}</p>
+        </div>
+        <div class="list-item">
+          <span>行动描述：</span>
+          <p>{{item.evt_udfchar06}}</p>
+        </div>
+        <div class="list-item">
+          <span>工作类型：</span>
+          <p>{{item.evt_class}}</p>
+        </div>
+        <div class="list-item">
+          <span>工单状态：</span>
+          <p>{{item.evt_udfchar28}}</p>
+        </div>
+      </div>
+    </ion-list>
+  </ion-list>
+</ion-content>

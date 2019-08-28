@@ -1,0 +1,311 @@
+<ion-header>
+
+  <ion-navbar #Navbar>
+    <ion-title>计划检修工单</ion-title>
+    <ion-buttons end (click)="updatePm('ZC')" *ngIf="pm.evt_status=='B140'">
+      <button ion-button icon-only>
+        暂存
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <!--************* PM基本信息 *************-->
+  <ion-list>
+    <ion-item-divider>
+      基本信息
+      <ion-icon class="open" ios="md-arrow-dropdown" item-end (click)="tabSwitch[0]=!tabSwitch[0]" *ngIf="tabSwitch[0]"></ion-icon>
+      <ion-icon class="close" ios="md-arrow-dropright" item-end (click)="tabSwitch[0]=!tabSwitch[0]" [hidden]="tabSwitch[0]"></ion-icon>
+    </ion-item-divider>
+    <div *ngIf="tabSwitch[0]" style="position: relative;">
+      <div style="position: absolute;top: 0;left: 0;right: 0;bottom: 0;z-index: 99;" *ngIf="pm.evt_status=='B165'||pm.evt_status=='B170'"></div>
+      <ion-item class="readonly">
+        单据编号：
+        <ion-note item-end>{{pm.evt_code}}</ion-note>
+      </ion-item>
+      <ion-item class="text-special readonly">
+        <ion-label fixed>
+          工单描述：
+        </ion-label>
+        <ion-textarea type="text" [(ngModel)]="pm.evt_desc" rows="2" readonly></ion-textarea>
+      </ion-item>
+      <ion-item class="readonly">
+        设备编号：
+        <ion-note item-end>{{pm.evt_object}}</ion-note>
+      </ion-item>
+      <ion-item class="readonly">
+        设备名称：
+        <ion-note item-end>{{pm.obj_desc}}</ion-note>
+      </ion-item>
+      <ion-item class="readonly">
+        设备型号：
+        <ion-note item-end>{{pm.obj_manufactmodel}}</ion-note>
+      </ion-item>
+      <ion-item class="readonly">
+        工厂/车间：
+        <ion-note item-end>{{pm.evt_udfchar01}}</ion-note>
+      </ion-item>
+      <ion-item class="readonly">
+        安装区域：
+        <ion-note item-end>{{pm.evt_udfchar16}}</ion-note>
+      </ion-item>
+      <ion-item class="readonly">
+        安装位置：
+        <ion-note item-end>{{pm.evt_udfchar17}}</ion-note>
+      </ion-item>
+      <ion-item class="readonly">
+        维修类型：
+        <ion-note item-end>{{pm.evt_jobtype_desc}}</ion-note>
+      </ion-item>
+      <!--<ion-item class="readonly">
+        工单类型：
+        <ion-note item-end>{{pm.evt_jobtype_desc}}</ion-note>
+      </ion-item>-->
+      <ion-item class="readonly">
+        检修到期日：
+        <ion-note item-end>{{pm.evt_due}}</ion-note>
+      </ion-item>
+      <ion-item class="readonly">
+        <ion-label  style="opacity: 1;"><span style="color:red">*</span>计划开始时间：</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MM-DD" max="2050-10-31" doneText="确定"
+                      cancelText="取消" [(ngModel)]="pm.evt_target"  [disabled]="datetimestatus" style="opacity: 1;"></ion-datetime>
+      </ion-item>
+      <ion-item class="readonly">
+        <ion-label  style="opacity: 1;"><span style="color:red">*</span>计划完成时间：</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MM-DD" max="2050-10-31" doneText="确定"
+                      cancelText="取消" [(ngModel)]="pm.evt_schedend"  [disabled]="datetimestatus" style="opacity: 1;"></ion-datetime>
+      </ion-item>
+      <ion-item class="readonly">
+        <ion-label><span style="color:red">*</span>是否外委</ion-label>
+        <ion-select cancelText="取消" okText="确定" [(ngModel)]="pm.evt_udfchkbox01">
+          <ion-option value="+">是</ion-option>
+          <ion-option value="-">否</ion-option>
+        </ion-select>
+      </ion-item>
+    </div>
+  </ion-list>
+  <!--************* PM工作信息 *************-->
+  <ion-list *ngIf="pm.evt_status!='B110'">
+    <ion-item-divider>
+      工作信息
+      <ion-icon class="open" ios="md-arrow-dropdown" item-end (click)="tabSwitch[1]=!tabSwitch[1]" *ngIf="tabSwitch[1]"></ion-icon>
+      <ion-icon class="close" ios="md-arrow-dropright" item-end (click)="tabSwitch[1]=!tabSwitch[1]" [hidden]="tabSwitch[1]"></ion-icon>
+    </ion-item-divider>
+    <div *ngIf="tabSwitch[1]" style="position: relative;">
+      <div style="position: absolute;top: 0;left: 0;right: 0;bottom: 0;z-index: 99;" *ngIf="pm.evt_status=='B165'||pm.evt_status=='B170'"></div>
+      <ion-item class="readonly">
+        <ion-label fixed>
+          检修责任人：
+        </ion-label>
+        <ion-input type="" [(ngModel)]="pm.evt_udfchar07" readonly></ion-input>
+      </ion-item>
+      <!--<ion-item class="readonly">
+        <ion-label fixed>
+          计划检修内容：
+        </ion-label>
+        <ion-input type="" value=""></ion-input>
+      </ion-item>-->
+      <ion-item class="readonly">
+        <ion-label>
+          <span style="color:red">*</span>
+          工作开始时间：
+        </ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" pickerFormat="YYYY-MM-DD HH:mm" max="2050-10-31" doneText="确定"
+          cancelText="取消" [(ngModel)]="pm.evt_pfpromisedate"></ion-datetime>
+      </ion-item>
+      <ion-item class="readonly">
+        <ion-label>
+          <span style="color:red">*</span>
+          工作结束时间：
+        </ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" pickerFormat="YYYY-MM-DD HH:mm" max="2050-10-31" doneText="确定"
+          cancelText="取消" [(ngModel)]="pm.evt_tfdatecompleted"></ion-datetime>
+      </ion-item>
+    </div>
+  </ion-list>
+  <!--************* PM工作内容 *************-->
+  <ion-list>
+    <ion-item-divider>
+      工作内容
+      <ion-icon class="open" ios="md-arrow-dropdown" item-end (click)="tabSwitch[2]=!tabSwitch[2]" *ngIf="tabSwitch[2]"></ion-icon>
+      <ion-icon class="close" ios="md-arrow-dropright" item-end (click)="tabSwitch[2]=!tabSwitch[2]" [hidden]="tabSwitch[2]"></ion-icon>
+    </ion-item-divider>
+    <div *ngIf="tabSwitch[2]" style="position: relative;">
+      <div style="position: absolute;top: 0;left: 0;right: 0;bottom: 0;z-index: 99;" *ngIf="pm.evt_status=='B165'||pm.evt_status=='B170'"></div>
+      <div  *ngFor="let a of actchecklist">
+        <ion-item>
+          <ion-label>{{a.ack_desc}}</ion-label>
+          <ion-checkbox color="ligh" *ngIf="a.ack_completed=='+'" checked  (ionChange)="updateToDo($event,a.ack_code)"></ion-checkbox>
+          <ion-checkbox color="ligh" *ngIf="a.ack_completed=='-'"  (ionChange)="updateToDo($event,a.ack_code)"></ion-checkbox>
+        </ion-item>
+        <ion-item class="readonly value" *ngIf="a.ack_type=='04'">
+          <ion-input type="" [(ngModel)]="a.ack_value" placeholder="请输入实测值"></ion-input>
+        </ion-item>
+      </div>
+      <ion-card>
+        <ion-card-header>
+          检修记录
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-textarea type="text" [(ngModel)]="pm.evt_workaddress" rows="4"></ion-textarea>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+      <!--<ion-card>
+        <ion-card-header>
+          工作记录
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-textarea type="text" [(ngModel)]="pm.evt_udfchar19" rows="4"></ion-textarea>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>-->
+      <!--<ion-item class="readonly time-special">
+        <ion-label fixed>
+          问题鉴定：
+        </ion-label>
+        <ion-input type="" [(ngModel)]="pm.evt_udfchar11"></ion-input>
+      </ion-item>
+      <ion-item class="readonly time-special">
+        <ion-label fixed>
+          原因鉴定：
+        </ion-label>
+        <ion-input type="" [(ngModel)]="pm.evt_udfchar12"></ion-input>
+      </ion-item>
+      <ion-item class="readonly time-special">
+        <ion-label fixed>
+          行动鉴定：
+        </ion-label>
+        <ion-input type="" [(ngModel)]="pm.evt_udfchar20"></ion-input>
+      </ion-item>-->
+      <ion-item class="readonly">
+        延迟维修原因：
+        <ion-note item-end>{{pm.evt_udfchar18}}</ion-note>
+        <ion-icon name="search" item-end (tap)="goRequirList('selectR5userdefinedfield','延迟原因')"  *ngIf="history==true"></ion-icon>
+      </ion-item>
+    </div>
+    <ion-item-divider style="color:#fff;">
+      上传图片及文件
+    </ion-item-divider>
+    <ion-item>
+      <page-select-picture [(fileObjList)]="filePaths" [evtcode]="pm.evt_code" [allowDelete]="allowDelete"  [addView]="true"></page-select-picture>
+    </ion-item>
+  </ion-list>
+
+
+  <!--************* 登记工时 *************-->
+  <ion-list class="workHour" *ngIf="pm.evt_status!='B110'">
+    <ion-item-divider>
+      登记工时
+      <button ion-button color="light" (click)="goToWorkingHoursModal()" *ngIf="pm.evt_status=='B140'">
+        <ion-icon class="add" name="add" color="danger" item-end></ion-icon>
+      </button>
+      <ion-icon class="open" ios="md-arrow-dropdown" item-end (click)="tabSwitch[3]=!tabSwitch[3]" *ngIf="tabSwitch[3]"></ion-icon>
+      <ion-icon class="close" ios="md-arrow-dropright" item-end (click)="tabSwitch[3]=!tabSwitch[3]" [hidden]="tabSwitch[3]"></ion-icon>
+    </ion-item-divider>
+    <ion-list class="workHour-inner" *ngFor="let item of bookedhours;let i = index;">
+      <div *ngIf="tabSwitch[3]">
+        <ion-item>
+          <span class="event-item">{{i+1}}：{{item.boo_person_desc}}——{{item.boo_hours}}小时</span>
+          <ion-icon name="arrow-forward" item-end (click)="workHours[i]=true" *ngIf="!workHours[i]"></ion-icon>
+          <ion-icon name="arrow-down" item-end (click)="workHours[i]=false" *ngIf="workHours[i]"></ion-icon>
+        </ion-item>
+        <div class="list-wrap" *ngIf="workHours[i]==true">
+          <div class="list-item">
+            <span>姓名：</span>
+            <p>{{item.boo_person_desc}}</p>
+          </div>
+          <div class="list-item">
+            <span>开始时间：</span>
+            <p>{{item.boo_on}}</p>
+          </div>
+          <div class="list-item">
+            <span>结束时间：</span>
+            <p>{{item.boo_off}}</p>
+          </div>
+          <div class="list-item">
+            <span>实际工时：</span>
+            <p>{{item.boo_hours}}小时</p>
+          </div>
+        </div>
+      </div>
+    </ion-list>
+  </ion-list>
+  <!--************* 检修评价 *************-->
+  <ion-list *ngIf="pm.evt_status=='B165'||pm.evt_status=='B170' ||pm.evt_status=='B199'">
+    <ion-item-divider>
+      检修评价
+      <ion-icon class="open" ios="md-arrow-dropdown" item-end (click)="tabSwitch[4]=!tabSwitch[4]" *ngIf="tabSwitch[4]"></ion-icon>
+      <ion-icon class="close" ios="md-arrow-dropright" item-end (click)="tabSwitch[4]=!tabSwitch[4]" [hidden]="tabSwitch[4]"></ion-icon>
+    </ion-item-divider>
+    <div *ngIf="tabSwitch[4]">
+      <ion-item-divider style="color:#fff;">
+        设备主管评价
+      </ion-item-divider>
+      <ion-item class="readonly">
+        <ion-label fixed>
+          检修质量：
+        </ion-label>
+        <span item-end *ngFor="let start of starts1;let i = index;" class="iconfont icon-star"
+              [class.icon-staroutline]="start"
+              (click)="clickStar(i,1)"></span>
+      </ion-item>
+      <!--<ion-item class="readonly">
+        <ion-label fixed>
+          检修态度：
+        </ion-label>
+        <span item-end *ngFor="let start of starts2;let i = index;" class="iconfont icon-star"
+              [class.icon-staroutline]="start" (click)="clickStar(i,2)"></span>
+      </ion-item>-->
+      <ion-item class="text-special">
+        <ion-label fixed>
+          检修评价：
+        </ion-label>
+        <ion-textarea type="text" [(ngModel)]="pm.evt_udfchar21" rows="2" [readonly]="pm.evt_status!='B165'"></ion-textarea>
+      </ion-item>
+      <ion-item class="readonly">
+        <ion-label fixed>
+          评价人：
+        </ion-label>
+        <ion-input readonly="true" value="{{pm.evt_udfchar13}}"></ion-input>
+      </ion-item>
+      <ion-list *ngIf="pm.evt_status=='B170' ||pm.evt_status=='B199'">
+        <ion-item-divider style="color:#fff;">
+          设备工程师评价
+        </ion-item-divider>
+        <ion-item class="readonly">
+          <ion-label fixed>
+            检修质量：
+          </ion-label>
+          <span item-end *ngFor="let start of starts3;let i = index;" class="iconfont icon-star"
+            [class.icon-staroutline]="start" (click)="clickStar(i,3)"></span>
+        </ion-item>
+        <ion-item class="text-special">
+          <ion-label fixed>
+            检修评价：
+          </ion-label>
+          <ion-textarea type="text" [(ngModel)]="pm.evt_udfchar22" rows="2"></ion-textarea>
+        </ion-item>
+        <ion-item class="readonly">
+          <ion-label fixed>
+            评价人：
+          </ion-label>
+          <ion-input readonly="true" value="{{pm.evt_udfchar14}}"></ion-input>
+        </ion-item>
+      </ion-list>
+    </div>
+  </ion-list>
+
+</ion-content>
+
+
+<ion-footer>
+  <ion-toolbar *ngIf="history==true">
+    <button ion-button col-6 color="secondary" (tap)="StatusButton()">下一步</button>
+  </ion-toolbar>
+</ion-footer>

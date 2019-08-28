@@ -1,0 +1,104 @@
+<!--
+  Generated template for the FactoryKpiPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>维修看板数据查询</ion-title>
+  </ion-navbar>
+  <ion-item class="readonly">
+    <ion-label>分厂/部门</ion-label>
+    <ion-select cancelText="取消" okText="确定" [(ngModel)]="mrc_code" (ionChange)="getKpi()">
+      <ion-option *ngFor="let mrc of mrcList" value="{{mrc.obj_code}}">{{mrc.obj_desc}}</ion-option>
+    </ion-select>
+  </ion-item>
+</ion-header>
+
+
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <div class="kpi-left">
+        <div id="chart1"></div>
+      </div>
+      <div class="kpi-right">
+        <div class="kpi-title">
+          故障停机时长（小时）
+        </div>
+        <div class="kpi-content">
+          <div class="kpi-item" col-6>
+            <div class="value" text-center>{{lastweek}}</div>
+            <div class="key" text-center>上周</div>
+          </div>
+          <div class="kpi-item" col-6>
+            <div class="value" text-center>{{thisweek}}</div>
+            <div class="key" text-center>本周</div>
+          </div>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <div class="kpi-left">
+        <div id="chart2"></div>
+      </div>
+      <div class="kpi-right">
+        <div class="kpi-title">
+          本周故障维修完成率
+        </div>
+        <div class="kpi-content">
+          <div class="kpi-item" col-4>
+            <div class="value" text-center>{{repaircount}}</div>
+            <div class="key" text-center>故障总数</div>
+          </div>
+          <div class="kpi-item" col-4>
+            <div class="value" text-center>{{completioncount}}</div>
+            <div class="key" text-center>完成数</div>
+          </div>
+          <div class="kpi-item" col-4>
+            <div class="value" text-center>{{completionrate}}%</div>
+            <div class="key" text-center>完成率</div>
+          </div>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <div class="kpi-left">
+        <div id="chart3"></div>
+      </div>
+      <div class="kpi-right">
+        <div class="kpi-title">
+          本周检修保养工单执行率
+        </div>
+        <div class="kpi-content">
+          <div class="kpi-item" col-4>
+            <div class="value" text-center>{{pmcount}}</div>
+            <div class="key" text-center>工单总数</div>
+          </div>
+          <div class="kpi-item" col-4>
+            <div class="value" text-center>{{pmcompletioncount}}</div>
+            <div class="key" text-center>完成数</div>
+          </div>
+          <div class="kpi-item" col-4>
+            <div class="value" text-center>{{pmcompletionrate}}%</div>
+            <div class="key" text-center>完成率</div>
+          </div>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+  <ion-item>
+    <button ion-button item-start [color]="buttonweek?'secondary':'light'" (tap)="getweekhandledfailure('thisweek')">本周</button>
+    <button ion-button item-start [color]="buttonweek?'light':'secondary'" (tap)="getweekhandledfailure('lastweek')">上周</button>
+    <span style="min-height:2.4rem;font-size: 1.4rem;">已处理故障分布情况</span>
+  </ion-item>
+  <div padding id="chart4">
+
+  </div>
+</ion-content>

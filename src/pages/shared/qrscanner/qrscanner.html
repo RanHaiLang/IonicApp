@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>扫描二维码</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content [ngClass]="{'qrscanner':isShow}">
+  <div class="area"></div>
+  <div class="line"></div>
+</ion-content>
+
+<ion-footer>
+  <div class="warp-icon" tappable (click)="close()">
+    <img src="./assets/imgs/qrscanner/close.png" alt="">
+    <span>取消</span>
+  </div>
+  <div class="warp-icon" tappable (click)="toggleLight()">
+    <img src="./assets/imgs/qrscanner/flashlight.png" alt="">
+    <span>手电筒</span>
+  </div>
+</ion-footer>

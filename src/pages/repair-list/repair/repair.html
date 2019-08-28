@@ -1,0 +1,95 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>故障维修单</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <!--************* 故障信息 *************-->
+  <ion-list>
+    <ion-item-divider>
+      故障信息
+    </ion-item-divider>
+    <!--<ion-item class="readonly">
+      单据编号：
+      <ion-note item-end>{{repair.evt_code}}</ion-note>
+    </ion-item>-->
+    <ion-item class="readonly">
+      故障设备编码：
+      <ion-note item-end>{{repair.evt_object}}</ion-note>
+      <ion-icon name="qr-scanner" item-end (click)="BarcodeScan()"></ion-icon>
+      <ion-icon name="search" item-end (tap)="getEquipment()"></ion-icon>
+    </ion-item>
+    <ion-item class="readonly">
+      故障设备名称：
+      <ion-note item-end>{{repair.obj_desc}}</ion-note>
+    </ion-item>
+    <ion-item class="readonly">
+      设备型号：
+      <ion-note item-end>{{repair.evt_udfchar02}}</ion-note>
+    </ion-item>
+    <ion-item class="readonly">
+      工厂/车间：
+      <ion-note item-end>{{repair.evt_udfchar01}}</ion-note>
+    </ion-item>
+    <ion-item class="readonly">
+      安装区域：
+      <ion-note item-end>{{repair.evt_udfchar16}}</ion-note>
+    </ion-item>
+    <ion-item class="readonly">
+      安装位置：
+      <ion-note item-end>{{repair.evt_udfchar17}}</ion-note>
+    </ion-item>
+    <ion-item class="readonly">
+      报修人：
+      <ion-note item-end>{{repair.evt_enteredby_desc}}</ion-note>
+    </ion-item>
+    <!--<ion-item class="readonly">
+      报修时间：
+      <ion-note item-end>{{ repair.evt_reported | date:'yyyy-MM-dd HH:mm'}}</ion-note>
+    </ion-item>-->
+    <ion-item class="readonly">
+      <ion-label><span style="color:red">*</span>计划开始时间：</ion-label>
+      <ion-datetime displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MM-DD" max="2050-10-31" doneText="确定"
+                    cancelText="取消" [(ngModel)]="repair.evt_target"></ion-datetime>
+    </ion-item>
+    <ion-item class="readonly">
+      <ion-label><span style="color:red">*</span>计划完成时间：</ion-label>
+      <ion-datetime displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MM-DD" max="2050-10-31" doneText="确定"
+                    cancelText="取消" [(ngModel)]="repair.evt_schedend"></ion-datetime>
+    </ion-item>
+    <ion-item class="text-special">
+      <ion-label fixed>
+        <span style="color:red">*</span>
+        故障维修描述：
+      </ion-label>
+      <ion-textarea type="text" rows="2" [(ngModel)]="repair.evt_desc" maxlength="80" placeholder="最多输入80个字符"></ion-textarea>
+    </ion-item>
+    <!--<ion-item class="readonly time-special">
+      <ion-label fixed>
+        维修响应时长：
+      </ion-label>
+      <ion-input type="" value="{{repair.evt_udfnum01}}"></ion-input>
+      <ion-note item-end>小时</ion-note>
+    </ion-item>-->
+  </ion-list>
+  <ion-list>
+    <ion-item-divider>
+      上传图片及文件
+    </ion-item-divider>
+    <ion-item>
+      <page-select-picture [(fileObjList)]="filePaths" [evtcode]="repair.evt_code" [keypage]="isrepair"></page-select-picture>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+
+<ion-footer>
+  <ion-toolbar>
+    <button ion-button col-6 color="danger" (tap)="BarcodeScan()">扫码</button>
+    <button ion-button col-6 color="secondary" (tap)="insertBX()" [disabled]="clickbutton">报修</button>
+  </ion-toolbar>
+</ion-footer>

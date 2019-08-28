@@ -1,0 +1,24 @@
+page-about-us {
+    .logo{
+        position: absolute;
+        top: 12%;
+        left: 50%;
+        margin-left: -10rem;
+        width: 20rem;
+        height: 20rem;
+        padding: 30px;
+        border-radius: 50%;
+        background-color: #f6f7f9;
+        text-align: center;
+        img{
+            height: 100%;
+        }
+    }
+    .company{
+        width: 100%;
+        position: fixed;
+        bottom: 30px;
+        text-align: center;
+        color: #999;
+    }
+}

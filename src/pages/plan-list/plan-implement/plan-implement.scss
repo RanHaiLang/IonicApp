@@ -1,0 +1,228 @@
+page-plan-implement {
+  .input_readonly{
+    .item-inner{
+      .label{
+        color: #8a8a8a;
+      }
+      ion-note{
+        color: #8a8a8a!important;
+      }
+      textarea{
+        color: #8a8a8a!important;
+      }
+      ion-input{
+        input{
+          color: #8a8a8a!important;
+        }
+      }
+    }
+  }
+    .list:nth-child(2) .item-block .item-inner .input-wrapper .label {
+      width: 100%;
+    }
+    .list{
+        margin-bottom: 0;
+        .item-block{
+            position: relative;
+            font-size: 1.4rem;
+            background-color: transparent;
+            color: #fff;
+            &.readonly{
+                ion-note,textarea{
+                    color: #fff;
+                }
+            }
+            input,textarea,ion-note{
+                text-align: left;
+                color: #fff;
+            }
+            .red-state{
+                color: red;
+                vertical-align: top;
+                position: absolute;
+                left: 10px;
+                margin-top: -2px;
+            }
+            .datetime-text{
+                color: #000;
+            }
+            ion-label[fixed]{
+                width: 105px;
+                min-width: 105px;
+            }
+            .item-inner{
+                border-bottom: 1px solid #4d5d76;
+                .input-wrapper{
+                    flex: none;
+                    .label{
+                        width: 110px;
+                    }
+                }
+           }
+           .iconfont{
+                color: #fff;
+                font-size: 2.4rem;
+                &.icon-star{
+                    color: #fe4f05;
+                }
+                &.icon-staroutline{
+                    color: #fff;
+                }
+            }
+           ion-note{
+               flex: 1;
+               text-align: left;
+           }
+           ion-datetime{
+                padding: 11px 8px;
+                .datetime-text{
+                    color: #fff;
+                }
+            }
+           .item-button{
+               padding: 0 2em;
+               height: 36px;
+           }
+           &.text-special{
+                .item-inner{
+                    .input-wrapper{
+                        flex: none;
+                        width: 100%;
+                        .label{
+                            width: 110px;
+                        }
+                        textarea{
+                            text-align: left;
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+            &.time-special{
+                .item-inner{
+                    .input-wrapper{
+                        flex: 1;
+                    }
+                    ion-note{
+                        flex: none;
+                    }
+                }
+            }
+       }
+       .item-block:first-child{
+           border-top: none;
+       }
+       .item-block:last-child{
+           border-bottom: 1px solid #4d5d76;
+           .item-inner{
+               border-bottom: none;
+           }
+       }
+        .item-divider{
+            background-color: transparent;
+            color: color($colors, primary);
+            .open,.close{
+                font-size:3.5rem;
+                font-weight:700;
+                margin: 0 15px 0;
+            }
+            .label{
+                font-weight: 700;
+                font-size: 1.6rem;
+            }
+        }
+        .card{
+            color: #b5b5b5;
+            margin-bottom: 0;
+            box-shadow: 0 0px 4px rgba(0, 0, 0,0.4);
+            .card-header{
+                font-size: 1.6rem;
+                color: #fff;
+                padding: 2px 0 10px 3px;
+            }
+            .item{
+                border-bottom: none;
+                padding-left: 0;
+                .item-inner{
+                    padding-right: 0;
+                    .input-wrapper{
+                        width: 100%;
+                    }
+                }
+            }
+            textarea.text-input{
+                border: 1px solid #fff;
+                margin: 0;
+            }
+        }
+   }
+   .list.workHour{
+       .button{
+           padding: 0;
+           vertical-align: middle;
+           .add{
+                font-weight: 700;
+                margin: 8px;
+            }
+       }
+        .workHour-inner{
+            padding: 0 16px;
+            margin-bottom: 6px;
+            .item-block{
+                background-color: rgba(23, 53, 101,.4);
+                height: 2.4rem;
+                min-height: 2.4rem;
+                border: none;
+                .item-inner{
+                    border-bottom: none;
+                    .input-wrapper{
+                        flex: 1;
+                        width: auto;
+                        .label{
+                            margin: 5px 8px 5px 0;
+                        }
+                    }
+                }
+                .event-item{
+                    color: color($colors,secondary);
+                }
+                .half{
+                    color: color($colors,danger);
+                }
+            }
+            .list-wrap{
+                font-size: 1.3rem;
+                padding: 6px 0 10px 12px;
+                background-color: rgba(23, 53, 101,.4);
+                color: #fff;
+                border-top: 1px solid #4d5d76;
+                .list-item{
+                    display: flex;
+                    flex: 1;
+                    flex-direction: row;
+                    span{
+                        width: 150px;
+                        text-align: right;
+                    }
+                    p{
+                        flex: 1;
+                        white-space: pre-wrap;
+                        line-height: normal;
+                        margin: 0 0 2px;
+                    }
+                }
+            }
+        }
+
+    }
+    ion-footer{
+        .toolbar{
+            padding: 0 16px;
+        }
+        .toolbar-content{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+    }
+}

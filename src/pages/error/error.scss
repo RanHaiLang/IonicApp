@@ -1,0 +1,23 @@
+page-error {
+    .header{
+        .toolbar-background{
+            background-color: #f8f8f8;
+        }
+        .toolbar-title{
+            color: #000;
+        }
+    }
+    .content{
+        background-color: #fff;
+        text-align: center;
+        color: #b1aeaf;
+        img{
+            margin-top: 20%;
+            width: 30%;
+        }
+        p{
+            font-size: 1.6rem;
+            line-height: 3rem;
+        }
+    }
+}

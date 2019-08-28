@@ -1,0 +1,48 @@
+<!-- Generated template for the RequircodeListComponent component -->
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{text}}列表</ion-title>
+    <ion-buttons start>
+      <button ion-button (tap)="dismiss('')">
+        <span ion-text color="secondary">取消</span>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+  <ion-toolbar>
+    <ion-item>
+      <ion-input mode="ios" [(ngModel)]="word" type="search" placeholder="请搜索" [ngModelOptions]="{standalone: true}"
+                 (keyup)="getItems($event)"></ion-input>
+    </ion-item>
+    <ion-buttons end (click)="getRequicode()">
+      <button ion-button icon-only>
+        搜索
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="下拉刷新" refreshingSpinner="circles" refreshingText="正在刷新...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-list no-lines>
+    <ion-item>
+      <div class="list-item" (tap)="dismiss('')">
+        <p>清空选择</p>
+      </div>
+    </ion-item>
+    <ion-item *ngFor="let item of requircodeList" (tap)="dismiss(item)">
+      <div class="list-item">
+        <span *ngIf="url!='selectR5userdefinedfield'">代码：</span>
+        <p>{{item.rqm_code}}</p>
+      </div>
+      <div class="list-item" *ngIf="url!='selectR5userdefinedfield'">
+        <span>描述：</span>
+        <p>{{item.rqm_desc}}</p>
+      </div>
+    </ion-item>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

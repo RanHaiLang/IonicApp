@@ -1,0 +1,38 @@
+<!-- Generated template for the RequircodeListComponent component -->
+<ion-header>
+  <ion-navbar>
+    <ion-title>维修标准列表</ion-title>
+    <ion-buttons start>
+      <button ion-button (tap)="dismiss('')">
+        <span ion-text color="secondary">取消</span>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+  <ion-toolbar>
+    <ion-item>
+      <ion-input mode="ios" [(ngModel)]="word" type="search" placeholder="请搜索" [ngModelOptions]="{standalone: true}"
+                 (keyup)="getItems($event)"></ion-input>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="下拉刷新" refreshingSpinner="circles" refreshingText="正在刷新...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-list no-lines>
+    <ion-item *ngFor="let item of standworkList" (tap)="dismiss(item)">
+      <div class="list-item">
+        <span>维修标准编号：</span>
+        <p>{{item.stw_code}}</p>
+      </div>
+      <div class="list-item">
+        <span>维修标准描述：</span>
+        <p>{{item.stw_desc}}</p>
+      </div>
+    </ion-item>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

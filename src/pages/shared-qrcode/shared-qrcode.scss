@@ -1,0 +1,15 @@
+page-shared-qrcode {
+.shared{
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  margin-left: -10rem;
+  width: 20rem;
+  height: 20rem;
+  background-color: #f6f7f9;
+  text-align: center;
+  img{
+    height: 100%;
+  }
+}
+}

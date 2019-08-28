@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      个人设置
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      当前用户：
+      <ion-note item-end>{{uname}}</ion-note>
+    </ion-item>
+    <ion-item>
+      工号：
+      <ion-note item-end>{{username}}</ion-note>
+    </ion-item>
+    <ion-item>
+      组织
+      <ion-note item-end>{{orgdesc}}</ion-note>
+    </ion-item>
+    <ion-item>
+      部门：
+      <ion-note item-end>{{mrc_desc}}</ion-note>
+    </ion-item>
+    <ion-item>
+      用户组：
+      <ion-note item-end>{{usr_group}}</ion-note>
+    </ion-item>
+    <ion-item>
+      用户组名称：
+      <ion-note item-end>{{ugrdesc}}</ion-note>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <button ion-item (click)="goToChangePasswordPage()">
+      修改密码
+    </button>
+    <ion-item>
+      当前版本：
+      <ion-note item-end>{{config.curreentversion}}</ion-note>
+    </ion-item>
+    <button ion-item (click)="goToAboutUsPage()">
+      关于我们
+    </button>
+    <button ion-item (click)="goToSharedQrcode()" *ngIf="this.natives.isAndroid()">
+      二维码分享
+    </button>
+  </ion-list>
+
+  <div padding>
+    <button block color="secondary" ion-button (click)="logout()">退出</button>
+  </div>
+
+</ion-content>

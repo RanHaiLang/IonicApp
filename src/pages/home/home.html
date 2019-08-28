@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button icon-only>
+        <ion-icon class="logo" name="aux_logo"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      奥克斯资产管理系统
+    </ion-title>
+    <ion-buttons end (click)="goToContactPage()">
+      <button ion-button icon-only>
+        <ion-icon name="contact"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <!-- 轮播:
+  autoplay:2s之后开始轮播
+  loop:循环播放
+  pager:分页器（小圆点） pager=true
+   (ionSlideTap)="gotoNotice()"
+-->
+  <ion-slides #slides class="focus" autoplay="2000" loop="true" pager *ngIf="slidesItems.length >0" (ionSlideTap)="gotoNotice()">
+    <ion-slide *ngFor="let item of slidesItems">
+      <img src="{{item.notudfchar02}}" class="slide-image">
+    </ion-slide>
+  </ion-slides>
+  <!--************* 常用功能 *************-->
+  <ion-card>
+    <ion-card-header>
+      常用功能
+      <!-- <span float-right class="more">查看全部</span> -->
+    </ion-card-header>
+    <ion-card-content>
+      <div class="common">
+          <div class="item-wrap" text-center (click)="goToEquipmentQueryPage()" *ngFor="let b of buttonshow" [hidden]="b.uscasccode!='SBXXCX'">
+            <ion-icon class="ion-3" name="shebeixinxichaxun"></ion-icon>
+            <div class="name">设备信息查询</div>
+          </div>
+          <div class="item-wrap" text-center (click)="goToRepairListPage()" *ngFor="let b of buttonshow" [hidden]="b.uscasccode!='GZWX'">
+            <ion-icon class="ion-2" name="guzhangbaoxiu"></ion-icon>
+            <div class="name">故障维修</div>
+            <ion-badge *ngIf="b.uscudfchar04>0 && b.uscudfchar04<=99">{{b.uscudfchar04}}</ion-badge>
+            <ion-badge *ngIf="b.uscudfchar04>99">99+</ion-badge>
+          </div>
+          <div class="item-wrap" text-center (click)="goToPlanListPage()" *ngFor="let b of buttonshow" [hidden]="b.uscasccode!='YFWX'">
+            <ion-icon class="ion-2" name="jihuagongzuo"></ion-icon>
+            <div class="name">预防维修</div>
+            <ion-badge *ngIf="b.uscudfchar04>0 && b.uscudfchar04<=99">{{b.uscudfchar04}}</ion-badge>
+            <ion-badge *ngIf="b.uscudfchar04>99">99+</ion-badge>
+          </div>
+          <div class="item-wrap" text-center (click)="goToPmListPage()" *ngFor="let b of buttonshow" [hidden]="b.uscasccode!='JHWX'">
+            <ion-icon class="ion-2" name="shebeiguzhanggongdan"></ion-icon>
+            <div class="name">计划检修</div>
+            <ion-badge *ngIf="b.uscudfchar04>0 && b.uscudfchar04<=99">{{b.uscudfchar04}}</ion-badge>
+            <ion-badge *ngIf="b.uscudfchar04>99">99+</ion-badge>
+          </div>
+          <div class="item-wrap" text-center (click)="goToWorkHistoryQueryPage()" *ngFor="let b of buttonshow" [hidden]="b.uscasccode!='WXLL'">
+            <ion-icon class="ion-2" name="lishichaxun"></ion-icon>
+            <div class="name">维修履历</div>
+          </div>
+          <div class="item-wrap" text-center (click)="goToFactoryKpiPage()"  *ngFor="let b of buttonshow"  [hidden]="b.uscasccode!='WXKB'">
+            <ion-icon class="ion-2" name="kpi"></ion-icon>
+            <div class="name">维修看板</div>
+          </div>
+          <div class="item-wrap" text-center (click)="goToCompanyKpiPage()"  *ngFor="let b of buttonshow" [hidden]="b.uscasccode!='GCKB'">
+            <ion-icon class="ion-2" name="tongji"></ion-icon>
+            <div class="name">工厂看板</div>
+          </div>
+        <div class="item-wrap" text-center (click)="goToNoticeListPage()">
+          <ion-icon class="ion-2" name="megaphone"></ion-icon>
+          <div class="name">通知公告</div>
+        </div>
+        <div class="item-wrap" text-center (click)="goToRepairPage()">
+          <ion-icon class="ion-2" name="qr-scanner"></ion-icon>
+          <div class="name">扫码报修</div>
+        </div>
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+  <!--************* /常用功能 *************-->
+</ion-content>

@@ -1,0 +1,130 @@
+page-repair {
+  .input_readonly{
+    .label{
+      color: #8a8a8a;
+    }
+    ion-note{
+      color: #8a8a8a!important;
+    }
+    textarea{
+      color: #8a8a8a!important;
+    }
+    ion-input{
+      input{
+        color: #8a8a8a!important;
+      }
+    }
+  }
+    .list:last-child .item-block .item-inner .input-wrapper .label {
+      width: 100%;
+    }
+    .list{
+        margin-bottom: 0;
+        .item-block{
+            position: relative;
+            font-size: 1.4rem;
+            background-color: transparent;
+            color: #fff;
+            &.readonly{
+                ion-note,textarea{
+                    color: #fff;
+                }
+            }
+            input,textarea,ion-note{
+                text-align: left;
+                color: #fff;
+            }
+            .red-state{
+                color: red;
+                vertical-align: top;
+                position: absolute;
+                left: 10px;
+                margin-top: -2px;
+            }
+            .datetime-text{
+                color: #000;
+            }
+            ion-label[fixed]{
+                width: 105px;
+                min-width: 105px;
+            }
+            .item-inner{
+                border-bottom: 1px solid #4d5d76;
+                .input-wrapper{
+                    flex: none;
+                    .label{
+                        width: 110px;
+                    }
+                }
+           }
+           ion-note{
+               flex: 1;
+               text-align: left;
+           }
+          ion-datetime{
+            padding: 11px 8px;
+            .datetime-text{
+              color: #fff;
+            }
+          }
+           .item-button{
+               padding: 0 2em;
+               height: 36px;
+           }
+           &.text-special{
+                .item-inner{
+                    .input-wrapper{
+                        flex: none;
+                        width: 100%;
+                        .label{
+                            width: 110px;
+                        }
+                        textarea{
+                            text-align: left;
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+            &.time-special{
+                .item-inner{
+                    .input-wrapper{
+                        flex: 1;
+                    }
+                    ion-note{
+                        flex: none;
+                    }
+                }
+            }
+
+       }
+       .item-block:first-child{
+           border-top: none;
+       }
+       .item-block:last-child{
+           border-bottom: 1px solid #4d5d76;
+       }
+        input,textarea,.select-text,.datetime-text{
+            color: #aeacb4;
+        }
+        .item-divider{
+            background-color: transparent;
+            color: color($colors, primary);
+            .label{
+                font-weight: 700;
+                font-size: 1.6rem;
+            }
+        }
+
+   }
+   ion-footer{
+        .toolbar:last-child{
+            padding: 0 16px;
+        }
+        .toolbar-content{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+    }
+}

@@ -1,0 +1,80 @@
+projectbudget-list {
+  .header{
+    .toolbar{
+      .item{
+        color: #fff;
+        min-height: 3.4rem;
+        background-color: #091e44;
+        .item-inner{
+          border-bottom: none;
+        }
+      }
+    }
+  }
+  .list{
+    margin: 0 7px;
+    &>.item{
+      background-color: #122e5d;
+      position: relative;
+    }
+    .item{
+      position: relative;
+      display: flex;
+      border-radius: 5px;
+      margin: 7px 0 0;
+      font-size: 1.6rem;
+      padding-left: 12px;
+      color: #fff;
+      &.item-block:first-child{
+        border-top: none;
+      }
+      .title{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        line-height: 2rem;
+        height: 2rem;
+        padding: 0 10px;
+        background: linear-gradient(rgb(220, 131, 0) 0%, rgb(220, 131, 0) 0%, rgb(154, 88, 1) 100%, rgb(154, 88, 1) 100%);
+        .item{
+          margin: 0;
+          padding: 0;
+          min-height: auto;
+          background-color: transparent;
+          .item-inner{
+            padding: 0;
+          }
+          div{
+            margin: 0;
+            padding: 0;
+          }
+          .label{
+            margin: 0;
+          }
+        }
+      }
+      &.item-block:last-child{
+        border-bottom:none;
+      }
+      .item-inner{
+        border-bottom:none;
+      }
+      .list-item{
+        display: flex;
+        flex-direction: row;
+        .item-inner{
+          border-bottom: none;
+        }
+        p{
+          font-size: 1.6rem;
+          flex: 1;
+          color: #fff;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+}

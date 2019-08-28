@@ -1,0 +1,79 @@
+page-authlist {
+    .header{
+        .toolbar-background{
+            background-color: #f8f8f8;
+        }
+        .toolbar-title{
+            color: #000;
+        }
+        .item{
+            font-size: 1.4rem;
+            min-height: 2.4rem;
+            padding-left: 0;
+            background-color: transparent;
+            .item-inner{
+                border-bottom: none;
+            }
+            .note{
+                margin: 0 8px 0;
+                color: #aeacb4;
+            }
+        }
+    }
+    .content{
+        background-color: #f1f2f4;
+        .list{
+            margin: 0 10px;
+            &>.item{
+                border: 1px solid #e5e5e5;
+            }
+            .item{
+                background-color: #fff;
+                display: flex;
+                border-radius: 5px;
+                margin: 10px 0 0;
+                font-size: 1.4rem;
+                padding-left: 0;
+                .item-inner{
+                    padding-right: 0;
+                    .label{
+                        margin: 0;
+                    }
+                }
+                .code{
+                    color: color($colors, primary);
+                }
+                .list-item{
+                    display: flex;
+                    flex-direction: row;
+                    padding: 0 10px 0 7px;
+                    p{
+                        font-size: 1.4rem;
+                        flex: 1;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        color: #000;
+                    }
+                }
+                .bottom{
+                    border-top: 1px solid #e7e7e7;
+                    border-radius: 0;
+                    min-height: 2.4rem;
+                    .note{
+                        margin: 10px 8px;
+                    }
+                }
+                .top{
+                    border-bottom: 1px solid #e7e7e7;
+                    border-radius: 0;
+                    min-height: 2.4rem;
+                    margin: 0 0 7px 0;
+                    .note{
+                        margin: 10px 8px;
+                    }
+                }
+            }
+        }
+    }
+}

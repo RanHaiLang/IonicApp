@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>取消理由</ion-title>
+    <ion-buttons start>
+      <button ion-button (tap)="dismiss('')">
+        <span ion-text color="secondary">取消</span>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+  <ion-toolbar>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item>
+    <ion-textarea placeholder="请填写取消理由" [(ngModel)]="opinion"></ion-textarea>
+  </ion-item>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <button ion-button col-6 block (tap)="submitOpinion()" color="secondary">提交</button>
+  </ion-toolbar>
+</ion-footer>
